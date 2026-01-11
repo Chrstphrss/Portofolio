@@ -20,9 +20,7 @@ const Header = memo(() => (
       data-aos="zoom-in-up"
       data-aos-duration="800"
     >
-      <Sparkles className="w-5 h-5 text-purple-400" />
       Transforming ideas into digital experiences
-      <Sparkles className="w-5 h-5 text-purple-400" />
     </p>
   </div>
 ));
@@ -114,21 +112,25 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
 
 const AboutPage = () => {
   // Memoized calculations
-  const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
-    const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-    const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
-    
-    const startDate = new Date("2021-11-06");
-    const today = new Date();
-    const experience = today.getFullYear() - startDate.getFullYear() -
-      (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
+  const { totalProjects, totalCertificates, monthsExperience } = useMemo(() => {
+  const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
+  const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
+  
+  const startDate = new Date("2024-12-12"); // tanggal mulai coding
+  const today = new Date();
 
-    return {
-      totalProjects: storedProjects.length,
-      totalCertificates: storedCertificates.length,
-      YearExperience: experience
-    };
-  }, []);
+  // Hitung total bulan pengalaman
+  const months =
+    (today.getFullYear() - startDate.getFullYear()) * 12 +
+    (today.getMonth() - startDate.getMonth()) +
+    (today.getDate() >= startDate.getDate() ? 0 : -1);
+
+  return {
+    totalProjects: storedProjects.length,
+    totalCertificates: storedCertificates.length,
+    monthsExperience: months >= 0 ? months : 0 // pastikan ga minus
+  };
+}, []);
 
   // Optimized AOS initialization
   useEffect(() => {
@@ -175,12 +177,12 @@ const AboutPage = () => {
     {
       icon: Globe,
       color: "from-[#6366f1] to-[#a855f7]",
-      value: YearExperience,
-      label: "Years of Experience",
+      value: monthsExperience,
+      label: "Months of Experience",
       description: "Continuous learning journey",
       animation: "fade-left",
     },
-  ], [totalProjects, totalCertificates, YearExperience]);
+  ], [totalProjects, totalCertificates, monthsExperience]);
 
   return (
     <div
@@ -205,7 +207,7 @@ const AboutPage = () => {
                 data-aos="fade-right"
                 data-aos-duration="1300"
               >
-                Eki Zulfar Rachman
+                Christophorus Alan Angelo
               </span>
             </h2>
             
@@ -214,7 +216,7 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-             Seorang lulusan Teknik Jaringan Komputer dan Telekomunikasi yang memiliki ketertarikan besar dalam pengembangan Front-End. Saya berfokus pada menciptakan pengalaman digital yang menarik dan selalu berusaha memberikan solusi terbaik dalam setiap proyek yang saya kerjakan.
+             Seorang pengembang muda yang gabut tapi penasaran, dan tertarik masuk tech. Dari iseng bikin chatbot, akhirnya berkembang hingga bikin platform web, sampai game Roblox sendiri. Saya berfokus pada menciptakan pengalaman digital yang menarik.
             </p>
 
                {/* Quote Section */}
@@ -240,15 +242,6 @@ const AboutPage = () => {
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="https://drive.google.com/drive/folders/1BOm51Grsabb3zj6Xk27K-iRwI1zITcpo" className="w-full lg:w-auto">
-              <button 
-                data-aos="fade-up"
-                data-aos-duration="800"
-                className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl "
-              >
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
-              </button>
-              </a>
               <a href="#Portofolio" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
